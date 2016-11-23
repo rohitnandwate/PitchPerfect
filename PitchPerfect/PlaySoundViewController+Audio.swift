@@ -24,7 +24,9 @@ extension PlaySoundViewController: AVAudioPlayerDelegate {
         static let AudioSessionError = "Audio Session Error"
         static let AudioRecordingError = "Audio Recording Error"
         static let AudioFileError = "Audio File Error"
+        static let AudioFileLoaded = "Audio File Loaded"
         static let AudioEngineError = "Audio Engine Error"
+        static let AudioEngineNotRunning = "Audio Engine is not running"
     }
     
     // MARK: PlayingState (raw values correspond to sender tags)
@@ -37,7 +39,7 @@ extension PlaySoundViewController: AVAudioPlayerDelegate {
         // initialize (recording) audio file
         do {
             audioFile = try AVAudioFile(forReading: recordingURL as URL)
-            print("Audio file loaded!")
+            print(Alerts.AudioFileLoaded)
         } catch {
             showAlert(Alerts.AudioFileError, message: String(describing: error))
         }
@@ -111,7 +113,7 @@ extension PlaySoundViewController: AVAudioPlayerDelegate {
             return
         }
         if !audioEngine.isRunning {
-            print("Audio Engine Not running")
+            showAlert(Alerts.AudioEngineError, message: Alerts.AudioEngineNotRunning)
         } else {
             // play the recording!
             audioPlayerNode.play()

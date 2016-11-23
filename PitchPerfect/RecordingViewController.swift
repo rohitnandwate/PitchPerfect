@@ -16,10 +16,26 @@ class RecordingViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var recordingLabel: UILabel!
     var audioRecorder: AVAudioRecorder!
     
+    enum RecordingState { case notRecording, recording}
+    
+    // MARK: Constants
+    
+    struct ConstantStrings {
+        static let DismissAlert = "Dismiss"
+        static let RecordingName = "recordedVoice.wav"
+        static let RecordingInProgress = "Recording in progress"
+        static let StartRecording = "Tap to Record"
+        static let RecordingSuccess = "Recroding completed and saved"
+        static let RecordingFailedMessage = "Something went wrong with your recording."
+        static let AudioRecorderError = "Audio Recorder Error"
+        static let AudioSessionError = "Audio Session Error"
+        static let AudioRecordingError = "Audio Recording Error"
+        static let AudioFileError = "Audio File Error"
+        static let AudioEngineError = "Audio Engine Error"
+    }
     
     let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true)[0] as String
-    let recordingName = "recordedVoice.wav"
-    
+    let segueID = "stopRecordingSegue"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +49,9 @@ class RecordingViewController: UIViewController, AVAudioRecorderDelegate {
     }
 
     @IBAction func recordAudio(_ sender: AnyObject) {
-        recordingLabel.text = "Recording in progress"
-        startRecordingButton.isEnabled = false
-        stopRecordingButton.isEnabled = true
+        configureUI(.recording)
         
-        let pathArray = [dirPath, recordingName]
+        let pathArray = [dirPath, ConstantStrings.RecordingName]
         let filePath = NSURL.fileURL(withPathComponents: pathArray)
         print(filePath!)
         
@@ -56,26 +70,46 @@ class RecordingViewController: UIViewController, AVAudioRecorderDelegate {
         let session = AVAudioSession.sharedInstance()
         try! session.setActive(false)
         
-        recordingLabel.text = "Tap to Record"
-        startRecordingButton.isEnabled = true
-        stopRecordingButton.isEnabled = false
+        configureUI(.notRecording)
     }
 
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         if flag {
-            print("recroding completed and saved")
-            self.performSegue(withIdentifier: "stopRecordingSegue", sender: recorder.url)
+            print(ConstantStrings.RecordingSuccess)
+            performSegue(withIdentifier: segueID, sender: recorder.url)
         } else {
-            print("Recording NOT saved successfully.")
+            print(ConstantStrings.RecordingFailedMessage)
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "stopRecordingSegue" {
+        if segue.identifier == segueID {
             let playSoundsVC = segue.destination as! PlaySoundViewController
             let recordedAudioURL = sender as! NSURL
             playSoundsVC.recordingURL = recordedAudioURL
         }
+    }
+    
+    // MARK: UI Functions
+    
+    func configureUI(_ recordingState: RecordingState) {
+        switch(recordingState) {
+        case .recording:
+            recordingLabel.text = ConstantStrings.RecordingInProgress
+            startRecordingButton.isEnabled = false
+            stopRecordingButton.isEnabled = true
+        case .notRecording:
+            recordingLabel.text = ConstantStrings.StartRecording
+            startRecordingButton.isEnabled = true
+            stopRecordingButton.isEnabled = false
+
+        }
+    }
+    
+    func showAlert(_ title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: ConstantStrings.DismissAlert, style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
