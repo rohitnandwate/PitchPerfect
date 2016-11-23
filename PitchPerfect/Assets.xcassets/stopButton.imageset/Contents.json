@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Stop.png",
+      "filename" : "Stop-halfsize.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Stop.png",
       "scale" : "2x"
     },
     {

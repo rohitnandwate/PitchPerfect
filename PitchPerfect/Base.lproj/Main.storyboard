@@ -16,7 +16,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleAspectFit" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="6Lt-HW-lmd">
@@ -76,7 +76,7 @@
                         <viewControllerLayoutGuide type="bottom" id="yaR-NA-pFv"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="B0d-qG-fKj">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Qyf-Bv-Ehx">
@@ -192,6 +192,6 @@
         <image name="recordButton" width="155" height="155"/>
         <image name="reverbButton" width="90" height="90"/>
         <image name="snailButton" width="90" height="90"/>
-        <image name="stopButton" width="155" height="155"/>
+        <image name="stopButton" width="77" height="77"/>
     </resources>
 </document>
