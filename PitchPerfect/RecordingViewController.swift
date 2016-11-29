@@ -43,11 +43,6 @@ class RecordingViewController: UIViewController, AVAudioRecorderDelegate {
         stopRecordingButton.isEnabled = false
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @IBAction func recordAudio(_ sender: AnyObject) {
         configureUI(.recording)
         
@@ -95,15 +90,16 @@ class RecordingViewController: UIViewController, AVAudioRecorderDelegate {
     func configureUI(_ recordingState: RecordingState) {
         switch(recordingState) {
         case .recording:
-            recordingLabel.text = ConstantStrings.RecordingInProgress
-            startRecordingButton.isEnabled = false
-            stopRecordingButton.isEnabled = true
+            setRecordingInProgress(inProgress: true)
         case .notRecording:
-            recordingLabel.text = ConstantStrings.StartRecording
-            startRecordingButton.isEnabled = true
-            stopRecordingButton.isEnabled = false
-
+            setRecordingInProgress(inProgress: false)
         }
+    }
+    
+    func setRecordingInProgress(inProgress: Bool) {
+        recordingLabel.text = inProgress ? ConstantStrings.RecordingInProgress : ConstantStrings.StartRecording
+        startRecordingButton.isEnabled = !inProgress
+        stopRecordingButton.isEnabled = inProgress
     }
     
     func showAlert(_ title: String, message: String) {
